@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FreeEats @ ERAU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+<style>
+/* ─────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES — DEFAULT (White/Blue/Gold)
+   ───────────────────────────────────────────── */
+:root {
+  --bg:           #f4f7ff;
+  --surface:      rgba(255,255,255,0.78);
+  --surface-hover:rgba(255,255,255,0.95);
+  --border:       rgba(30,80,200,0.14);
+  --accent:       #1a4fc4;
+  --accent2:      #c9a227;
+  --text:         #0d1a3a;
+  --text-sub:     #4a5a80;
+  --ticker-bg:    #1a4fc4;
+  --ticker-text:  #ffffff;
+  --header-bg:    rgba(255,255,255,0.7);
+  --tag-bg:       rgba(26,79,196,0.10);
+  --tag-text:     #1a4fc4;
+  --badge-bg:     #c9a227;
+  --badge-text:   #fff;
+  --shadow:       0 4px 32px rgba(26,79,196,0.10);
+  --shadow-hover: 0 8px 40px rgba(26,79,196,0.18);
+  --radius:       14px;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'Share Tech Mono', monospace;
+}
+[data-theme="beige"] {
+  --bg:#f0ece3; --surface:rgba(250,246,238,0.88); --surface-hover:rgba(255,253,248,0.98);
+  --border:rgba(120,100,70,0.18); --accent:#7b5e3a; --accent2:#b09060;
+  --text:#2e1f0e; --text-sub:#7a6248; --ticker-bg:#7b5e3a; --ticker-text:#fdf6ea;
+  --header-bg:rgba(240,236,227,0.82); --tag-bg:rgba(123,94,58,0.10); --tag-text:#7b5e3a;
+  --badge-bg:#b09060; --badge-text:#fff;
+  --shadow:0 4px 24px rgba(90,60,20,0.10); --shadow-hover:0 8px 36px rgba(90,60,20,0.18);
+}
+[data-theme="beige-dark"] {
+  --bg:#1c1510; --surface:rgba(38,28,18,0.90); --surface-hover:rgba(50,38,24,0.98);
+  --border:rgba(180,150,100,0.18); --accent:#c9a96e; --accent2:#a07840;
+  --text:#f0e8d8; --text-sub:#a89070; --ticker-bg:#2e1f0e; --ticker-text:#e8d5b0;
+  --header-bg:rgba(28,21,16,0.88); --tag-bg:rgba(201,169,110,0.12); --tag-text:#c9a96e;
+  --badge-bg:#a07840; --badge-text:#fff;
+  --shadow:0 4px 24px rgba(0,0,0,0.30); --shadow-hover:0 8px 36px rgba(0,0,0,0.45);
+}
+[data-theme="scifi"] {
+  --bg:#e8f4f8; --surface:rgba(220,240,250,0.75); --surface-hover:rgba(230,248,255,0.95);
+  --border:rgba(0,200,255,0.25); --accent:#0088cc; --accent2:#00ddaa;
+  --text:#001428; --text-sub:#305070; --ticker-bg:#001428; --ticker-text:#00ddaa;
+  --header-bg:rgba(220,240,250,0.80); --tag-bg:rgba(0,136,204,0.10); --tag-text:#0088cc;
+  --badge-bg:#00ddaa; --badge-text:#001428;
+  --shadow:0 4px 24px rgba(0,136,204,0.14); --shadow-hover:0 0 32px rgba(0,200,255,0.30);
+}
+[data-theme="scifi-dark"] {
+  --bg:#050d14; --surface:rgba(8,22,36,0.88); --surface-hover:rgba(10,30,50,0.98);
+  --border:rgba(0,200,255,0.20); --accent:#00ccff; --accent2:#00ffcc;
+  --text:#c8eeff; --text-sub:#5098bc; --ticker-bg:#000a10; --ticker-text:#00ffcc;
+  --header-bg:rgba(5,13,20,0.90); --tag-bg:rgba(0,200,255,0.10); --tag-text:#00ccff;
+  --badge-bg:#00ffcc; --badge-text:#001428;
+  --shadow:0 4px 24px rgba(0,200,255,0.10); --shadow-hover:0 0 40px rgba(0,200,255,0.35);
+}
+[data-theme="party"] {
+  --bg:#fff0fa; --surface:rgba(255,248,255,0.82); --surface-hover:rgba(255,255,255,0.97);
+  --border:rgba(255,60,180,0.18); --accent:#e0148a; --accent2:#ff6b00;
+  --text:#1a0020; --text-sub:#802060; --ticker-bg:#e0148a; --ticker-text:#ffffff;
+  --header-bg:rgba(255,240,250,0.85); --tag-bg:rgba(224,20,138,0.10); --tag-text:#e0148a;
+  --badge-bg:#ff6b00; --badge-text:#fff;
+  --shadow:0 4px 24px rgba(224,20,138,0.12); --shadow-hover:0 8px 36px rgba(224,20,138,0.24);
+}
+[data-theme="party-dark"] {
+  --bg:#100014; --surface:rgba(28,5,36,0.88); --surface-hover:rgba(40,8,52,0.98);
+  --border:rgba(255,60,200,0.22); --accent:#ff40cc; --accent2:#ff8c00;
+  --text:#ffe8ff; --text-sub:#c070c0; --ticker-bg:#0a0010; --ticker-text:#ff40cc;
+  --header-bg:rgba(16,0,20,0.90); --tag-bg:rgba(255,64,204,0.12); --tag-text:#ff40cc;
+  --badge-bg:#ff8c00; --badge-text:#fff;
+  --shadow:0 4px 24px rgba(255,64,204,0.14); --shadow-hover:0 0 36px rgba(255,64,204,0.32);
+}
+[data-theme="default-dark"] {
+  --bg:#080e1c; --surface:rgba(14,24,50,0.88); --surface-hover:rgba(20,34,72,0.98);
+  --border:rgba(100,140,255,0.16); --accent:#6090ff; --accent2:#f0b820;
+  --text:#d8e4ff; --text-sub:#6880b0; --ticker-bg:#040810; --ticker-text:#6090ff;
+  --header-bg:rgba(8,14,28,0.92); --tag-bg:rgba(96,144,255,0.12); --tag-text:#6090ff;
+  --badge-bg:#f0b820; --badge-text:#000;
+  --shadow:0 4px 24px rgba(0,0,0,0.40); --shadow-hover:0 8px 40px rgba(96,144,255,0.24);
+}
+
+/* ─────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:var(--font-body); font-size:15px; line-height:1.6;
+  min-height:100vh; transition:background .4s,color .4s;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.08) 0%,transparent 50%),
+    radial-gradient(circle at 80% 80%,rgba(255,255,255,.06) 0%,transparent 50%);
+}
+[data-theme="scifi-dark"] body::after,
+[data-theme="scifi"] body::after{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,200,255,.015) 3px,rgba(0,200,255,.015) 4px);
+  animation:scanlines 8s linear infinite;
+}
+@keyframes scanlines{from{background-position:0 0}to{background-position:0 80px}}
+
+/* ─────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────── */
+.site-header{
+  position:sticky; top:0; z-index:100;
+  background:var(--header-bg);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  transition:background .4s,border-color .4s;
+}
+.header-inner{
+  max-width:1140px; margin:0 auto; padding:0 24px;
+  height:64px; display:flex; align-items:center; gap:16px;
+}
+.logo{display:flex;align-items:baseline;gap:6px;text-decoration:none;flex-shrink:0}
+.logo-mark{
+  font-family:var(--font-display); font-size:26px;
+  color:var(--accent); line-height:1; transition:color .4s;
+}
+.logo-sub{
+  font-size:11px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--text-sub);
+}
+.header-spacer{flex:1}
+.date-badge{
+  font-size:12px; font-weight:500; color:var(--text-sub);
+  border:1px solid var(--border); border-radius:20px;
+  padding:4px 12px; display:flex; align-items:center; gap:6px;
+}
+.date-badge .dot{
+  width:7px; height:7px; border-radius:50%; background:var(--accent2);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+
+.pref-btn{
+  position:relative; background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:6px 14px; font-family:var(--font-body);
+  font-size:13px; font-weight:500; color:var(--text);
+  cursor:pointer; display:flex; align-items:center; gap:6px;
+  transition:background .2s,box-shadow .2s;
+}
+.pref-btn:hover{box-shadow:var(--shadow-hover)}
+.pref-dropdown{
+  position:absolute; top:calc(100% + 8px); right:0;
+  background:var(--surface-hover); border:1px solid var(--border);
+  border-radius:12px; box-shadow:var(--shadow); min-width:220px;
+  padding:12px; display:none; z-index:200; backdrop-filter:blur(14px);
+}
+.pref-dropdown.open{display:block}
+.pref-dropdown h4{
+  font-size:10px; font-weight:600; letter-spacing:.10em;
+  text-transform:uppercase; color:var(--text-sub); margin-bottom:8px; padding:0 2px;
+}
+.theme-grid{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.theme-btn{
+  border:2px solid var(--border); border-radius:8px; padding:8px 8px 6px;
+  background:transparent; cursor:pointer; text-align:left;
+  transition:border-color .2s,transform .15s; font-family:var(--font-body);
+}
+.theme-btn:hover{transform:translateY(-1px)}
+.theme-btn.active{border-color:var(--accent)}
+.theme-swatch{height:22px; border-radius:5px; margin-bottom:5px}
+.theme-btn span{
+  font-size:10px; font-weight:600; letter-spacing:.04em; color:var(--text);
+  display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* ─────────────────────────────────────────────
+   TICKER
+   ───────────────────────────────────────────── */
+.ticker-wrap{
+  background:var(--ticker-bg); overflow:hidden; height:38px;
+  display:flex; align-items:center; position:relative; transition:background .4s;
+}
+[data-theme="party"] .ticker-wrap,
+[data-theme="party-dark"] .ticker-wrap{
+  background:linear-gradient(90deg,#e0148a,#ff6b00,#f5c000,#00c896,#0088ff,#b020ff,#e0148a);
+  background-size:400% 100%; animation:rainbow-move 6s linear infinite;
+}
+@keyframes rainbow-move{from{background-position:0% 50%}to{background-position:200% 50%}}
+
+.ticker-label{
+  flex-shrink:0; padding:0 14px; font-size:10px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ticker-text);
+  border-right:1px solid rgba(255,255,255,.2); z-index:2;
+  background:inherit; white-space:nowrap;
+}
+[data-theme="party"] .ticker-label,
+[data-theme="party-dark"] .ticker-label{background:rgba(0,0,0,.2);border-right-color:rgba(255,255,255,.3)}
+
+.ticker-track{display:flex;width:max-content;animation:ticker-scroll 40s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.ticker-item{
+  display:inline-flex; align-items:center; gap:8px; padding:0 28px;
+  white-space:nowrap; cursor:pointer; color:var(--ticker-text);
+  font-size:13px; font-weight:500; transition:opacity .2s;
+}
+.ticker-item:hover{opacity:.75}
+.ti-sep{color:var(--accent2);font-size:16px}
+.ti-dot{width:5px;height:5px;border-radius:50%;background:var(--ticker-text);opacity:.4;margin:0 6px}
+.ticker-empty{padding:0 24px;font-size:12px;color:var(--ticker-text);opacity:.6;font-style:italic}
+
+.ticker-popup{
+  position:fixed; background:var(--surface-hover); border:1px solid var(--border);
+  border-radius:12px; box-shadow:var(--shadow-hover); padding:16px 20px 16px 16px;
+  max-width:300px; z-index:500; display:none; backdrop-filter:blur(14px);
+}
+.ticker-popup.show{display:block}
+.ticker-popup h3{
+  font-family:var(--font-display); font-size:16px; color:var(--accent);
+  margin-bottom:6px; padding-right:18px;
+}
+.ticker-popup p{font-size:12px; color:var(--text-sub); margin-bottom:4px}
+.tp-close{
+  position:absolute; top:8px; right:10px; background:none; border:none;
+  font-size:18px; color:var(--text-sub); cursor:pointer;
+}
+
+/* ─────────────────────────────────────────────
+   MAIN LAYOUT
+   ───────────────────────────────────────────── */
+.main-wrap{
+  max-width:1140px; margin:0 auto;
+  padding:32px 24px 80px; position:relative; z-index:1;
+}
+.controls-bar{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.controls-bar h1{font-family:var(--font-display);font-size:28px;color:var(--text);line-height:1}
+.controls-bar h1 span{color:var(--accent)}
+.filter-group{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.filter-chip{
+  border:1px solid var(--border); border-radius:20px; padding:5px 14px;
+  font-size:12px; font-weight:500; background:var(--surface); color:var(--text-sub);
+  cursor:pointer; transition:background .2s,border-color .2s,color .2s;
+}
+.filter-chip:hover,.filter-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.status-line{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--text-sub);margin-bottom:20px;
+}
+.sl-count{font-weight:700;color:var(--accent)}
+.sl-sep{opacity:.3}
+
+/* ─────────────────────────────────────────────
+   CARDS
+   ───────────────────────────────────────────── */
+.events-list{display:flex;flex-direction:column;gap:12px}
+
+.event-card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  cursor:pointer; overflow:hidden; backdrop-filter:blur(10px);
+  transition:box-shadow .25s,background .25s,border-color .25s,transform .15s;
+}
+.event-card:hover{
+  box-shadow:var(--shadow-hover); background:var(--surface-hover); transform:translateY(-1px);
+}
+.event-card.expanded{border-color:var(--accent)}
+
+/* Left color strip via CSS variable set per-card */
+.event-row{
+  display:flex; align-items:center; padding:18px 22px; gap:16px;
+  border-left:4px solid var(--cat-color, var(--accent));
+}
+.event-main{flex:1;min-width:0}
+.event-name{
+  font-family:var(--font-display); font-size:18px; color:var(--text);
+  line-height:1.2; margin-bottom:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  transition:color .3s;
+}
+.event-card:hover .event-name{color:var(--accent)}
+.food-type{
+  font-size:12px; font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--text-sub); margin-bottom:4px;
+}
+.event-desc{font-size:13px;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.event-meta{flex-shrink:0;text-align:right;min-width:130px}
+.meta-who{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--badge-bg);color:var(--badge-text);
+  border-radius:20px;font-size:11px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 11px;margin-bottom:6px;
+}
+.meta-time{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
+.meta-location{font-size:11px;color:var(--text-sub)}
+
+.chevron{flex-shrink:0;font-size:16px;color:var(--text-sub);transition:transform .3s}
+.event-card.expanded .chevron{transform:rotate(180deg)}
+
+/* ── Expanded detail ── */
+.event-detail{
+  border-top:1px solid var(--border); padding:20px 22px;
+  display:none; animation:slide-down .25s ease;
+}
+.event-card.expanded .event-detail{display:block}
+@keyframes slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+.detail-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px 24px;margin-bottom:16px;
+}
+@media(max-width:600px){.detail-grid{grid-template-columns:1fr}}
+.detail-item label{
+  font-size:10px;font-weight:700;letter-spacing:.10em;
+  text-transform:uppercase;color:var(--text-sub);display:block;margin-bottom:2px;
+}
+.detail-item p{font-size:13px;color:var(--text)}
+
+/* Optional AI summary */
+.ai-summary{
+  background:var(--tag-bg);border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;padding:12px 16px;margin:0 0 14px;
+}
+.ai-label{
+  font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:4px;
+}
+.ai-summary p{font-size:13px;color:var(--text);line-height:1.6}
+
+.detail-footer{
+  display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;
+}
+/* Optional event link */
+.event-link{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent);color:#fff;text-decoration:none;
+  font-size:12px;font-weight:600;letter-spacing:.04em;
+  border-radius:20px;padding:7px 18px;
+  transition:opacity .2s,transform .15s;
+}
+.event-link:hover{opacity:.88;transform:translateY(-1px)}
+
+.share-btn{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:7px 14px;font-family:var(--font-body);
+  font-size:12px;font-weight:500;color:var(--text-sub);
+  cursor:pointer;transition:background .2s;
+}
+.share-btn:hover{background:var(--surface-hover)}
+
+/* ─────────────────────────────────────────────
+   STATES: loading / error / empty
+   ───────────────────────────────────────────── */
+.loading-state{text-align:center;padding:60px 20px;color:var(--text-sub)}
+.loading-spinner{
+  width:36px;height:36px;border:3px solid var(--border);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:spin .8s linear infinite;margin:0 auto 14px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.error-state{text-align:center;padding:60px 20px;color:var(--text-sub)}
+.err-icon{font-size:40px;margin-bottom:12px}
+.error-state p{font-size:14px;margin-bottom:6px}
+.error-state code{
+  font-family:var(--font-mono);font-size:11px;
+  background:var(--tag-bg);padding:2px 8px;
+  border-radius:4px;color:var(--text-sub);
+}
+.retry-btn{
+  margin-top:16px;border:1px solid var(--accent);border-radius:20px;
+  padding:7px 20px;font-family:var(--font-body);font-size:13px;
+  font-weight:500;color:var(--accent);background:transparent;
+  cursor:pointer;transition:background .2s,color .2s;
+}
+.retry-btn:hover{background:var(--accent);color:#fff}
+
+.no-results{text-align:center;padding:60px 20px;color:var(--text-sub)}
+.nr-icon{font-size:48px;margin-bottom:12px}
+.no-results p{font-size:15px}
+
+/* ─────────────────────────────────────────────
+   SCI-FI EFFECTS
+   ───────────────────────────────────────────── */
+[data-theme="scifi-dark"] .event-card{box-shadow:0 0 0 1px rgba(0,200,255,.10),var(--shadow)}
+[data-theme="scifi-dark"] .event-card:hover{box-shadow:0 0 18px rgba(0,200,255,.20),var(--shadow-hover)}
+[data-theme="scifi-dark"] .event-name,
+[data-theme="scifi"] .event-name{font-family:var(--font-mono);font-size:15px}
+[data-theme="scifi-dark"] .event-card.expanded,
+[data-theme="scifi"] .event-card.expanded{animation:scifi-border 2s linear infinite}
+@keyframes scifi-border{0%,100%{border-color:rgba(0,200,255,.30)}50%{border-color:rgba(0,255,200,.60)}}
+[data-theme="scifi-dark"] .logo-mark,
+[data-theme="scifi"] .logo-mark{font-family:var(--font-mono);animation:text-glitch 5s linear infinite}
+@keyframes text-glitch{0%,97%,100%{opacity:1;text-shadow:none}98%{opacity:.8;text-shadow:2px 0 #00ffcc,-2px 0 #ff0044}}
+
+/* ─────────────────────────────────────────────
+   FOOTER & RESPONSIVE
+   ───────────────────────────────────────────── */
+.site-footer{
+  text-align:center;padding:20px;font-size:11px;color:var(--text-sub);
+  border-top:1px solid var(--border);position:relative;z-index:1;
+}
+@media(max-width:700px){
+  .event-row{flex-wrap:wrap}
+  .event-meta{min-width:auto;text-align:left}
+  .controls-bar{flex-direction:column;align-items:flex-start}
+  .filter-group{margin-left:0}
+  .logo-sub{display:none}
+}
+</style>
+</head>
+<body data-theme="default">
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark">FreeEats</span>
+      <span class="logo-sub">@ Embry-Riddle Aeronautical University</span>
+    </a>
+    <div class="header-spacer"></div>
+    <div class="date-badge">
+      <span class="dot"></span>
+      <span id="live-date"></span>
+    </div>
+    <div style="position:relative">
+      <button class="pref-btn" id="prefBtn">
+        <span style="font-size:15px">🎨</span> Preferences
+      </button>
+      <div class="pref-dropdown" id="prefDropdown">
+        <h4>Color Theme</h4>
+        <div class="theme-grid" id="themeGrid"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ TICKER ══════════════════
+     Auto-populated from events.json.
+     Shows events live right now; falls back to
+     all today's events if nothing is current.
+════════════════════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-label">🔴 NOW ON CAMPUS</div>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- Ticker popup card -->
+<div class="ticker-popup" id="tickerPopup">
+  <button class="tp-close" id="tickerClose">✕</button>
+  <h3 id="tp-name"></h3>
+  <p id="tp-host"></p>
+  <p id="tp-time"></p>
+  <p id="tp-food"></p>
+  <p id="tp-desc" style="margin-top:6px;line-height:1.5"></p>
+</div>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main class="main-wrap">
+  <div class="controls-bar">
+    <h1>Today's <span>Free Food</span></h1>
+    <div class="filter-group">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="pizza">🍕 Pizza</button>
+      <button class="filter-chip" data-filter="snacks">🍿 Snacks</button>
+      <button class="filter-chip" data-filter="drinks">🥤 Drinks</button>
+      <button class="filter-chip" data-filter="meals">🍱 Full Meal</button>
+      <button class="filter-chip" data-filter="dessert">🧁 Dessert</button>
+    </div>
+  </div>
+
+  <div class="status-line">
+    <span class="sl-count" id="resultCount">—</span>
+    <span>events found</span>
+    <span class="sl-sep">|</span>
+    <span id="fetchTime">Loading…</span>
+  </div>
+
+  <div class="events-list" id="eventsList">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Fetching today's events…</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  FreeEats @ ERAU &nbsp;·&nbsp; Built for students, by students &nbsp;·&nbsp;
+  Event data is crowd-sourced. Always verify details with the hosting organization.
+</footer>
+
+<!-- ══════════════════ JS ══════════════════ -->
+<script>
+/* ─── THEMES ─── */
+const THEMES = [
+  {id:"default",      label:"Default Light",  swatch:"linear-gradient(135deg,#1a4fc4,#c9a227,#f4f7ff)"},
+  {id:"default-dark", label:"Default Dark",   swatch:"linear-gradient(135deg,#040810,#6090ff,#f0b820)"},
+  {id:"beige",        label:"Library Light",  swatch:"linear-gradient(135deg,#7b5e3a,#b09060,#f0ece3)"},
+  {id:"beige-dark",   label:"Library Dark",   swatch:"linear-gradient(135deg,#1c1510,#c9a96e,#a07840)"},
+  {id:"scifi",        label:"Sci-Fi Light",   swatch:"linear-gradient(135deg,#0088cc,#00ddaa,#e8f4f8)"},
+  {id:"scifi-dark",   label:"Sci-Fi Dark",    swatch:"linear-gradient(135deg,#050d14,#00ccff,#00ffcc)"},
+  {id:"party",        label:"Party Light",    swatch:"linear-gradient(135deg,#e0148a,#ff6b00,#f5c000,#00c896)"},
+  {id:"party-dark",   label:"Party Dark",     swatch:"linear-gradient(135deg,#100014,#ff40cc,#ff8c00)"},
+];
+
+/* Category accent colors for the left border strip on each card */
+const CAT_COLORS = {
+  pizza:"#e85d04", snacks:"#7b2d8b", drinks:"#0077b6",
+  meals:"#2d6a4f", dessert:"#d62828", other:"#6c757d",
+};
+
+/* ─── STATE ─── */
+let allEvents     = [];
+let currentFilter = "all";
+let currentTheme  = localStorage.getItem("fe-theme") || "default";
+
+/* ─── BOOTSTRAP ─── */
+document.addEventListener("DOMContentLoaded", async () => {
+  setDate();
+  buildThemeGrid();
+  applyTheme(currentTheme);
+  bindFilters();
+  bindPreferences();
+  await fetchAndRender();
+});
+
+/* ─────────────────────────────────────────────
+   DATA FETCH
+   Reads events.json from the same directory.
+   Add "?<timestamp>" to bypass browser cache
+   so the page always shows the freshest data.
+   Power Automate writes to this file; no other
+   server-side code is needed.
+   ───────────────────────────────────────────── */
+async function fetchAndRender() {
+  try {
+    const res = await fetch("events.json?" + Date.now());
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    allEvents = await res.json();
+
+    const now = new Date();
+    document.getElementById("fetchTime").textContent =
+      "Updated at " + now.toLocaleTimeString("en-US", {hour:"numeric", minute:"2-digit"});
+
+    buildTicker();
+    renderEvents();
+  } catch (err) {
+    showError(err.message);
+  }
+}
+
+/* ─── DATE ─── */
+function setDate() {
+  document.getElementById("live-date").textContent =
+    new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+}
+
+/* ─────────────────────────────────────────────
+   TICKER
+   Filters to events happening right now based
+   on timeStart / timeEnd. Falls back to the
+   full list so the bar is never blank.
+   ───────────────────────────────────────────── */
+function buildTicker() {
+  const track = document.getElementById("tickerTrack");
+  track.innerHTML = "";
+
+  if (!allEvents.length) {
+    track.innerHTML = `<span class="ticker-empty">No events today — check back soon!</span>`;
+    return;
+  }
+
+  const now  = new Date();
+  const live = allEvents.filter(ev => isHappeningNow(ev, now));
+  const pool = live.length ? live : allEvents;
+
+  // Double the list for a seamless CSS loop
+  [...pool, ...pool].forEach(ev => {
+    const el = document.createElement("span");
+    el.className = "ticker-item";
+    el.innerHTML = `<span class="ti-sep">★</span> ${esc(ev.name)} <span class="ti-dot"></span>`;
+    el.addEventListener("click", e => showTickerPopup(e, ev));
+    track.appendChild(el);
+  });
+}
+
+function isHappeningNow(ev, now) {
+  const s = parseTime(ev.timeStart);
+  const e = parseTime(ev.timeEnd);
+  return s && e && now >= s && now <= e;
+}
+
+function parseTime(str) {
+  // Accepts "12:00 PM", "9:30 AM", "3:00 PM"
+  if (!str) return null;
+  const m = str.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!m) return null;
+  let h = +m[1], min = +m[2];
+  if (m[3].toUpperCase() === "PM" && h !== 12) h += 12;
+  if (m[3].toUpperCase() === "AM" && h === 12) h = 0;
+  const d = new Date(); d.setHours(h, min, 0, 0); return d;
+}
+
+function showTickerPopup(e, ev) {
+  const popup = document.getElementById("tickerPopup");
+  document.getElementById("tp-name").textContent = ev.name || "";
+  document.getElementById("tp-host").textContent = ev.host ? "🏛 " + ev.host : "";
+  document.getElementById("tp-time").textContent =
+    (ev.timeStart && ev.timeEnd) ? "🕐 " + ev.timeStart + " – " + ev.timeEnd : "";
+  document.getElementById("tp-food").textContent =
+    ev.foodType ? "🍽 " + catLabel(ev.foodType) : "";
+  document.getElementById("tp-desc").textContent = ev.desc || "";
+
+  const r = e.target.getBoundingClientRect();
+  popup.style.top  = (r.bottom + window.scrollY + 8) + "px";
+  popup.style.left = Math.min(r.left, window.innerWidth - 316) + "px";
+  popup.classList.add("show");
+}
+
+document.getElementById("tickerClose").addEventListener("click", () =>
+  document.getElementById("tickerPopup").classList.remove("show"));
+document.addEventListener("click", e => {
+  if (!e.target.closest(".ticker-item") && !e.target.closest("#tickerPopup"))
+    document.getElementById("tickerPopup").classList.remove("show");
+});
+
+/* ─── FILTERS ─── */
+function bindFilters() {
+  document.querySelectorAll(".filter-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentFilter = chip.dataset.filter;
+      renderEvents();
+    });
+  });
+}
+
+/* ─────────────────────────────────────────────
+   RENDER EVENT LIST
+   ───────────────────────────────────────────── */
+function renderEvents() {
+  const list = document.getElementById("eventsList");
+  list.innerHTML = "";
+
+  const filtered = allEvents.filter(ev =>
+    currentFilter === "all" || ev.foodType === currentFilter
+  );
+
+  document.getElementById("resultCount").textContent = filtered.length;
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="no-results">
+      <div class="nr-icon">🔍</div>
+      <p>No events match this filter.<br>Try selecting a different food type or "All".</p>
+    </div>`;
+    return;
+  }
+
+  filtered.forEach(ev => list.appendChild(buildCard(ev)));
+}
+
+/* ─────────────────────────────────────────────
+   BUILD CARD
+   Every optional field (aiSummary, link,
+   spotsLeft, dietary, tags, emoji, distance)
+   is guarded — present → rendered,
+   absent / falsy → silently omitted.
+   ───────────────────────────────────────────── */
+function buildCard(ev) {
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.setAttribute("role", "button");
+  card.setAttribute("aria-expanded", "false");
+
+  const catColor = CAT_COLORS[ev.foodType] || CAT_COLORS.other;
+
+  // Optional: AI summary block
+  const aiBlock = ev.aiSummary ? `
+    <div class="ai-summary">
+      <div class="ai-label">✦ AI Summary</div>
+      <p>${esc(ev.aiSummary)}</p>
+    </div>` : "";
+
+  // Optional: event link button
+  const linkBtn = ev.link ? `
+    <a class="event-link" href="${esc(ev.link)}" target="_blank" rel="noopener">
+      🔗 View Event Details
+    </a>` : "";
+
+  // Optional: spots remaining
+  const spotsRow = (ev.spotsLeft && +ev.spotsLeft > 0) ? `
+    <div class="detail-item">
+      <label>Spots Remaining</label>
+      <p>~${+ev.spotsLeft}</p>
+    </div>` : "";
+
+  // Optional: dietary info
+  const dietRow = ev.dietary ? `
+    <div class="detail-item">
+      <label>Dietary Info</label>
+      <p>${esc(ev.dietary)}</p>
+    </div>` : "";
+
+  card.innerHTML = `
+    <div class="event-row" style="--cat-color:${catColor}">
+      <div class="event-main">
+        <div class="event-name">${esc(ev.name || "Unnamed Event")}</div>
+        <div class="food-type">${catLabel(ev.foodType)}</div>
+        <div class="event-desc">${esc(ev.desc || "")}</div>
+      </div>
+      <div class="event-meta">
+        <div class="meta-who">${esc(ev.who || "All Students")}</div>
+        <span class="meta-time">${esc(ev.timeStart || "")} – ${esc(ev.timeEnd || "")}</span>
+        <span class="meta-location">📍 ${esc(ev.location || "")}</span>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="event-detail">
+      ${aiBlock}
+      <div class="detail-grid">
+        <div class="detail-item">
+          <label>Host / Organizer</label>
+          <p>${esc(ev.host || "Unknown")}</p>
+        </div>
+        <div class="detail-item">
+          <label>Location</label>
+          <p>${esc(ev.location || "See event details")}</p>
+        </div>
+        <div class="detail-item">
+          <label>Time</label>
+          <p>${esc(ev.timeStart || "")} – ${esc(ev.timeEnd || "")}</p>
+        </div>
+        ${dietRow}
+        ${spotsRow}
+      </div>
+      <div class="detail-footer">
+        ${linkBtn}
+        <button class="share-btn">↗ Share</button>
+      </div>
+    </div>`;
+
+  card.querySelector(".event-row").addEventListener("click", () => {
+    const was = card.classList.contains("expanded");
+    document.querySelectorAll(".event-card.expanded").forEach(c => {
+      c.classList.remove("expanded"); c.setAttribute("aria-expanded","false");
+    });
+    if (!was) { card.classList.add("expanded"); card.setAttribute("aria-expanded","true"); }
+  });
+
+  card.querySelector(".share-btn").addEventListener("click", e => {
+    e.stopPropagation();
+    const btn = e.currentTarget;
+    if (navigator.share) {
+      navigator.share({title: ev.name + " — Free Food @ ERAU", url: location.href});
+    } else {
+      navigator.clipboard.writeText(location.href).then(() => {
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => btn.textContent = "↗ Share", 1800);
+      });
+    }
+  });
+
+  return card;
+}
+
+/* ─── ERROR STATE ─── */
+function showError(msg) {
+  document.getElementById("resultCount").textContent = "0";
+  document.getElementById("fetchTime").textContent = "Could not load events";
+  document.getElementById("eventsList").innerHTML = `
+    <div class="error-state">
+      <div class="err-icon">⚠️</div>
+      <p>Could not load <strong>events.json</strong>.</p>
+      <p>Make sure the file exists in your repo root alongside <code>index.html</code>.</p>
+      <code>${esc(msg)}</code><br>
+      <button class="retry-btn" onclick="fetchAndRender()">↺ Try Again</button>
+    </div>`;
+}
+
+/* ─── THEME ─── */
+function buildThemeGrid() {
+  const grid = document.getElementById("themeGrid");
+  THEMES.forEach(t => {
+    const btn = document.createElement("button");
+    btn.className = "theme-btn" + (t.id === currentTheme ? " active" : "");
+    btn.innerHTML = `<div class="theme-swatch" style="background:${t.swatch}"></div><span>${t.label}</span>`;
+    btn.addEventListener("click", () => {
+      applyTheme(t.id);
+      document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("prefDropdown").classList.remove("open");
+    });
+    grid.appendChild(btn);
+  });
+}
+function applyTheme(id) {
+  document.body.setAttribute("data-theme", id);
+  currentTheme = id;
+  localStorage.setItem("fe-theme", id);
+}
+function bindPreferences() {
+  const btn = document.getElementById("prefBtn");
+  const dd  = document.getElementById("prefDropdown");
+  btn.addEventListener("click", e => { e.stopPropagation(); dd.classList.toggle("open"); });
+  document.addEventListener("click", () => dd.classList.remove("open"));
+  dd.addEventListener("click", e => e.stopPropagation());
+}
+
+/* ─── HELPERS ─── */
+function catLabel(type) {
+  return {pizza:"🍕 Pizza",snacks:"🍿 Snacks & Light Bites",
+          drinks:"☕ Drinks & Beverages",meals:"🍱 Full Meal",
+          dessert:"🧁 Dessert & Baked Goods"}[type] || type || "Food";
+}
+function esc(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+                  .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>
