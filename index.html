@@ -545,11 +545,15 @@ document.addEventListener("DOMContentLoaded", async () => {
    Power Automate writes to this file; no other
    server-side code is needed.
    ───────────────────────────────────────────── */
+// Paste your published CSV URL here
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/YOURSHEETID/pub?gid=YOURGID&single=true&output=csv";
+
 async function fetchAndRender() {
   try {
-    const res = await fetch("events.json?" + Date.now());
+    const res = await fetch(SHEET_CSV_URL);
     if (!res.ok) throw new Error("HTTP " + res.status);
-    allEvents = await res.json();
+    const csv  = await res.text();
+    allEvents  = parseCSV(csv);
 
     const now = new Date();
     document.getElementById("fetchTime").textContent =
@@ -560,6 +564,39 @@ async function fetchAndRender() {
   } catch (err) {
     showError(err.message);
   }
+}
+
+function parseCSV(csv) {
+  const lines = csv.trim().split("\n");
+  if (lines.length < 2) return [];           // header only — no events yet
+  const headers = parseCSVRow(lines[0]);
+  return lines.slice(1)
+    .map(line => {
+      const vals = parseCSVRow(line);
+      const obj  = {};
+      headers.forEach((h, i) => obj[h.trim()] = (vals[i] || "").trim());
+      return obj;
+    })
+    .filter(ev => ev.name);                  // skip blank rows
+}
+
+function parseCSVRow(row) {
+  // Handles quoted fields (including commas inside quotes)
+  const result = [];
+  let cur = "", inQuotes = false;
+  for (let i = 0; i < row.length; i++) {
+    const ch = row[i];
+    if (ch === '"') {
+      if (inQuotes && row[i+1] === '"') { cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(cur); cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur);
+  return result;
 }
 
 /* ─── DATE ─── */
