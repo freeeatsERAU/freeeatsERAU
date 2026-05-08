@@ -1,0 +1,17 @@
+[
+  {
+    "id": "sample-001",
+    "name": "Sample Event — Delete Me",
+    "foodType": "snacks",
+    "desc": "This is a placeholder so the site loads correctly. Delete this entry once your first real form submission comes through.",
+    "who": "All Students",
+    "timeStart": "12:00 PM",
+    "timeEnd": "1:00 PM",
+    "location": "Student Union",
+    "host": "FreeEats Team",
+    "dietary": "",
+    "aiSummary": "",
+    "link": "",
+    "spotsLeft": ""
+  }
+]
