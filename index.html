@@ -566,20 +566,44 @@ async function fetchAndRender() {
   }
 }
 
+// Maps your Google Form's column headers to the field names the code uses
+const HEADER_MAP = {
+  "event name":        "name",
+  "food type":         "foodType",
+  "short description": "desc",
+  "who can attend":    "who",
+  "start time":        "timeStart",
+  "end time":          "timeEnd",
+  "building and room": "location",
+  "host/organization": "host",
+  "dietary notes":     "dietary",
+  "link":              "link",
+  "spots available":   "spotsLeft",
+};
+
+function normalizeHeader(h) {
+  const lower = h.trim().toLowerCase();
+  // Check for exact match first, then partial match
+  if (HEADER_MAP[lower]) return HEADER_MAP[lower];
+  for (const key of Object.keys(HEADER_MAP)) {
+    if (lower.startsWith(key) || lower.includes(key)) return HEADER_MAP[key];
+  }
+  return lower; // fall back to lowercase original
+}
+
 function parseCSV(csv) {
   const lines = csv.trim().split("\n");
-  if (lines.length < 2) return [];           // header only — no events yet
-  const headers = parseCSVRow(lines[0]);
+  if (lines.length < 2) return [];
+  const headers = parseCSVRow(lines[0]).map(normalizeHeader);
   return lines.slice(1)
     .map(line => {
       const vals = parseCSVRow(line);
       const obj  = {};
-      headers.forEach((h, i) => obj[h.trim()] = (vals[i] || "").trim());
+      headers.forEach((h, i) => obj[h] = (vals[i] || "").trim());
       return obj;
     })
-    .filter(ev => ev.name);                  // skip blank rows
+    .filter(ev => ev.name); // skip rows with no event name
 }
-
 function parseCSVRow(row) {
   // Handles quoted fields (including commas inside quotes)
   const result = [];
