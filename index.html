@@ -550,7 +550,7 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQg2Ixjex
 
 async function fetchAndRender() {
   try {
-    const res = await fetch(SHEET_CSV_URL);
+    const res = await fetch("https://corsproxy.io/?" + encodeURIComponent(SHEET_CSV_URL));
     if (!res.ok) throw new Error("HTTP " + res.status);
     const csv  = await res.text();
     allEvents  = parseCSV(csv);
@@ -821,8 +821,8 @@ function showError(msg) {
   document.getElementById("eventsList").innerHTML = `
     <div class="error-state">
       <div class="err-icon">⚠️</div>
-      <p>Could not load <strong>events.json</strong>.</p>
-      <p>Make sure the file exists in your repo root alongside <code>index.html</code>.</p>
+      <p>Could not load event data from Google Sheets.</p>
+      <p>Check that your sheet is published to the web as CSV and the URL is correct.</p>
       <code>${esc(msg)}</code><br>
       <button class="retry-btn" onclick="fetchAndRender()">↺ Try Again</button>
     </div>`;
